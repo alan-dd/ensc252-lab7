@@ -1,0 +1,31 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
+
+entity ToneGenerator is
+
+port(clk, reset : in std_logic;
+Waveout : out signed(15 downto 0);
+frequency : in unsigned (21 downto 6));
+end ToneGenerator;
+
+architecture logic of ToneGenerator is
+
+signal holder: signed(21 downto 0);
+signal freqholder : signed(21 downto 0);
+begin
+
+freqholder <= signed(frequency & "000000");
+
+process (clk, reset)
+begin
+if rising_edge(clk) then
+if (reset='1') then
+holder <= "0000000000000000000000";
+else
+holder <=holder+freqholder;
+end if;
+end if;
+end process;
+Waveout <= holder(21 downto 6);
+end logic;
