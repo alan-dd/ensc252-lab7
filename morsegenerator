@@ -1,0 +1,30 @@
+LIBRARY ieee;
+USE ieee.std_logic_1164.all;
+USE ieee.numeric_std.all;
+
+entity MorseGenerator is
+port(clk: in std_logic;
+		PulseOut: out std_logic);
+end morseGenerator;
+
+architecture logic of MorseGenerator is
+SIGNAL increment : UNSIGNED(13 downto 0) := "00000000000000";
+
+BEGIN
+
+PROCESS(Clk)
+BEGIN
+
+IF (rising_edge(clk)) THEN
+
+IF (increment = "11111111111111") THEN
+increment <= "00000000000000";
+ELSE
+increment <= increment + 1;
+END IF;
+END IF;
+END PROCESS;
+
+PulseOut <= STD_LOGIC(increment(13));
+
+End logic; 
